@@ -76,23 +76,11 @@ RUN chmod 700 /usr/sbin/install_R_version && \
   install_R_versions
 ENV PATH ${PATH}:/usr/local/R/current/bin/
 
-# Install pythons and python dependencies
 RUN \
-  add-apt-repository -y ppa:deadsnakes/ppa && \
-  apt-get update
-
-
-# Create users
-RUN \
-  useradd -m -c "H2O AI" -u ${H2O_USER_UID} h2oai -s /bin/bash
-
-USER h2oai
-# Create virtualenvs
-RUN \
-  virtualenv -p python2 /home/h2oai/venv/h2o-env-python2 && \
-  virtualenv -p python3 /home/h2oai/venv/h2o-env-python3
-
-USER root
+  virtualenv -p python2 /envs/h2o_env_python2.7 && \
+  chmod a+w /envs/h2o_env_python2.7
+  virtualenv -p python3 /envs/h2o_env_python3.5
+  chmod a+w /envs/h2o_env_python3.5
 
 # Expose ports for services
 EXPOSE 54321
